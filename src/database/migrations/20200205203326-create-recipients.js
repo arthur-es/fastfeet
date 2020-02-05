@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
 
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('recipients', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -14,14 +14,29 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      email: {
+      address_street: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
       },
-      password_hash: {
+      address_number: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+      },
+      address_aditionalInfo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      address_state: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      address_city: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      address_cep: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
