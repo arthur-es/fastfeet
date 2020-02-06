@@ -14,27 +14,27 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      address_street: {
+      street: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      address_number: {
+      number: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      address_aditionalInfo: {
+      complementary_info: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      address_state: {
+      state: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      address_city: {
+      city: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      address_cep: {
+      postal_code: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -52,7 +52,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
 
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('recipients');
 
   }
 };
