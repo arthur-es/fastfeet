@@ -18,9 +18,6 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      avatar_id: {
-        type: Sequelize.INTEGER,
-      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -32,7 +29,7 @@ module.exports = {
     });
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: queryInterface => {
     return queryInterface.dropTable('deliverymen');
   },
 };
