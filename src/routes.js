@@ -1,25 +1,24 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import SessionController from './app/controllers/SessionController'
-import RecipientController from './app/controllers/RecipientController'
-import authMiddleware from './app/middlewares/auth'
-import logRequests from './app/middlewares/logRequests'
+import SessionController from './app/controllers/SessionController';
+import RecipientController from './app/controllers/RecipientController';
+import authMiddleware from './app/middlewares/auth';
+import logRequests from './app/middlewares/logRequests';
 
-const routes = new Router()
+const routes = new Router();
 
-routes.use(logRequests)
+routes.use(logRequests);
 
 routes.get('/', async (req, res) => {
+  return res.json({ message: 'Hello there' });
+});
 
-  return res.json({ message: "Hello there" })
-})
-
-routes.post('/sessions', SessionController.store)
-
-routes.use(authMiddleware)
-
-routes.post('/recipients', RecipientController.store)
+routes.post('/sessions', SessionController.store);
 
 //aqui pra baixo precisa passar pelo authmiddleware
+routes.use(authMiddleware);
+
+routes.post('/recipients', RecipientController.store);
+routes.put('/recipients/:id', RecipientController.update);
 
 export default routes;

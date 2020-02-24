@@ -56,6 +56,52 @@ class RecipientController {
       postal_code,
     });
   }
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      street: Yup.string(),
+      number: Yup.string(),
+      complementary_info: Yup.string(),
+      state: Yup.string(),
+      city: Yup.string(),
+      postal_code: Yup.string(),
+      email: Yup.string(),
+    });
+
+    const validationResult = await schema
+      .validate(req.body, {
+        abortEarly: false,
+      })
+      .catch(err => {
+        yupValidationErrors = err.errors;
+      });
+
+    if (!validationResult) {
+      return res.status(400).json({
+        error: 'Yup validation failed.',
+        errors: yupValidationErrors,
+      });
+    }
+
+    try {
+      const { id } = req.params;
+
+      const recipient = await Recipient.findByPk(id);
+
+      if (!recipient) {
+        return res.status(400).json({ error: 'This recipient id is invalid.' });
+      }
+
+      const updatedRecipient = await recipient.update(req.body);
+
+      return res.json({ updatedRecipient });
+    } catch (err) {
+      return res.status(500).json({
+        error:
+          'Something completely failed when trying to update this recipient on the database.',
+      });
+    }
+  }
 }
 
 export default new RecipientController();
