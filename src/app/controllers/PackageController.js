@@ -7,6 +7,15 @@ import Deliveryman from '../models/Deliveryman';
 let yupValidationErrors = [];
 
 class PackageController {
+  async index(req, res) {
+    try {
+      const packagesFound = await Package.findAll();
+      return res.json(packagesFound);
+    } catch (err) {
+      return res.json({ error: err });
+    }
+  }
+
   async store(req, res) {
     /*
       Checks if object sent from client is ok
@@ -101,6 +110,25 @@ class PackageController {
     });
 
     return res.json(updatedPackage);
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+    if (!id)
+      return res
+        .status(400)
+        .json({ error: 'You must provide a param of `id`' });
+
+    const packageFound = await Package.findByPk(id);
+    if (!packageFound) {
+      return res
+        .status(400)
+        .json({ error: `Unable to find a package with id of ${id}` });
+    }
+    const { product } = packageFound;
+    await packageFound.destroy();
+
+    return res.json({ id, product });
   }
 }
 
