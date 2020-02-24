@@ -3,6 +3,8 @@ import { parseISO } from 'date-fns';
 import Package from '../models/Package';
 import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
+import Queue from '../../lib/Queue';
+import NewPackageMail from '../jobs/newPackageMail';
 
 let yupValidationErrors = [];
 
@@ -63,6 +65,8 @@ class PackageController {
       deliveryman_id,
       product,
     });
+    await Queue.add(NewPackageMail.key, { packageData: packageCreated });
+
     return res.json(packageCreated);
   }
 
