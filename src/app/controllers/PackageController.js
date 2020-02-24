@@ -16,7 +16,7 @@ class PackageController {
       deliveryman_id: Yup.number().required(),
       signature_id: Yup.number(),
       product: Yup.string().required(),
-      start_date: Yup.string().required(),
+      start_date: Yup.string(),
       end_date: Yup.string(),
     });
 
@@ -53,9 +53,54 @@ class PackageController {
       recipient_id,
       deliveryman_id,
       product,
-      start_date: parseISO(start_date),
     });
     return res.json(packageCreated);
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+    if (!id)
+      return res.status(400).json({
+        error: 'You must provide a param of `id` to update the package',
+      });
+    /*
+      Checks if object sent from client is ok
+    */
+    const schema = Yup.object().shape({
+      recipient_id: Yup.number(),
+      deliveryman_id: Yup.number(),
+      signature_id: Yup.number(),
+      product: Yup.string(),
+      start_date: Yup.string(),
+      end_date: Yup.string(),
+    });
+
+    const validationResult = await schema
+      .validate(req.body, {
+        abortEarly: false,
+      })
+      .catch(err => {
+        yupValidationErrors = err.errors;
+      });
+
+    if (!validationResult) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        errors: yupValidationErrors,
+      });
+    }
+
+    const packageFound = await Package.findByPk(id);
+
+    const { recipient_id, deliveryman_id, product } = req.body;
+
+    const updatedPackage = await packageFound.update({
+      recipient_id,
+      deliveryman_id,
+      product,
+    });
+
+    return res.json(updatedPackage);
   }
 }
 
