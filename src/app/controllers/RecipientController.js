@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 
-import Recipient from '../models/Recipient'
+import Recipient from '../models/Recipient';
+
+let yupValidationErrors = [];
 
 class RecipientController {
   async store(req, res) {
@@ -12,24 +14,48 @@ class RecipientController {
       state: Yup.string().required(),
       city: Yup.string().required(),
       postal_code: Yup.string().required(),
-      email: Yup.string().required()
+      email: Yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Yup validation failed' })
+    const validationResult = await schema
+      .validate(req.body, {
+        abortEarly: false,
+      })
+      .catch(err => {
+        yupValidationErrors = err.errors;
+      });
+
+    if (!validationResult) {
+      return res.status(400).json({
+        error: 'Yup validation failed',
+        errors: yupValidationErrors,
+      });
     }
 
     const { email } = req.body;
 
-    const recipient = await Recipient.create(req.body)
-    const { name, street, number, complementary_info, state, city, postal_code } = recipient;
+    const recipient = await Recipient.create(req.body);
+    const {
+      name,
+      street,
+      number,
+      complementary_info,
+      state,
+      city,
+      postal_code,
+    } = recipient;
 
     return res.status(200).json({
-      name, email, street, number, complementary_info, state, city, postal_code
-    })
-
+      name,
+      email,
+      street,
+      number,
+      complementary_info,
+      state,
+      city,
+      postal_code,
+    });
   }
-
 }
 
 export default new RecipientController();
