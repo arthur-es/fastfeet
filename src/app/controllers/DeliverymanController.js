@@ -44,7 +44,22 @@ class DeliverymanController {
   }
 
   async delete(req, res) {
-    return res.json({ ok: 'ko' });
+    const { id } = req.params;
+    if (!id)
+      return res
+        .status(400)
+        .json({ error: 'You must provide a param of `id`' });
+
+    const deliveryMan = await Deliveryman.findByPk(id);
+    if (!deliveryMan) {
+      return res
+        .status(400)
+        .json({ error: `Unable to find a deliveryman with id of ${id}` });
+    }
+
+    await deliveryMan.destroy();
+
+    return res.json(deliveryMan);
   }
 }
 
