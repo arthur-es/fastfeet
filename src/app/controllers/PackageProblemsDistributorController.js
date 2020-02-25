@@ -35,6 +35,8 @@ class PackageProblemsDistributorController {
       canceled_at: new Date(),
     });
 
+    //TO-DO: Quando uma encomenda for cancelada, o entregador deve receber um e-mail informando-o sobre o cancelamento.
+
     return res.json(packageCanceled);
   }
 }
