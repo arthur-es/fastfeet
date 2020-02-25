@@ -4,7 +4,7 @@ import { parseISO } from 'date-fns';
 
 class DeliverymanController {
   async update(req, res) {
-    const { end_date } = req.body;
+    const { end_date, signature_id } = req.body;
     if (!end_date)
       return res.status(400).json({ error: 'You must provide a end_date' });
 
@@ -48,6 +48,12 @@ class DeliverymanController {
         end_date: parseISO(end_date),
       });
 
+      if (signature_id) {
+        const updatedPackageSignatureId = await updatedPackage.update({
+          signature_id,
+        });
+        return res.json(updatedPackageSignatureId);
+      }
       return res.json(updatedPackage);
     } catch (err) {
       return res.status(400).json({ error: err });
