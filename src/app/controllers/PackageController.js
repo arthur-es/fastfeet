@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import { parseISO } from 'date-fns';
 import Package from '../models/Package';
 import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
@@ -65,6 +64,8 @@ class PackageController {
       deliveryman_id,
       product,
     });
+
+    console.log('Adding mail to queue');
     await Queue.add(NewPackageMail.key, { packageData: packageCreated });
 
     return res.json(packageCreated);

@@ -24,6 +24,7 @@ class Queue {
   }
 
   add(queue, job) {
+    console.log('Add method');
     return this.queues[queue].bee.createJob(job).save();
   }
 

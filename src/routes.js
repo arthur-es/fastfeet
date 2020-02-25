@@ -4,6 +4,9 @@ import { Router } from 'express';
 import SessionController from './app/controllers/SessionController';
 import RecipientController from './app/controllers/RecipientController';
 import DeliverymanController from './app/controllers/DeliverymanController';
+import DeliverymanActionController from './app/controllers/DeliverymanActionController';
+import PackageWithdrawController from './app/controllers/PackageWithdrawController';
+import PackageDeliverController from './app/controllers/PackageDeliverController';
 import FileController from './app/controllers/FileController';
 import PackageController from './app/controllers/PackageController';
 
@@ -33,6 +36,16 @@ routes.get('/deliverymen', DeliverymanController.index);
 routes.post('/deliverymen', DeliverymanController.store);
 routes.put('/deliverymen/:id', DeliverymanController.update);
 routes.delete('/deliverymen/:id', DeliverymanController.delete);
+routes.get('/deliveryman/:id/deliveries', DeliverymanActionController.index);
+routes.post(
+  '/deliveryman/:id/deliveries/:packageId/withdraw',
+  PackageWithdrawController.update
+);
+
+routes.post(
+  '/deliveryman/:id/deliveries/:packageId/deliver',
+  PackageDeliverController.update
+);
 
 routes.get('/packages', PackageController.index);
 routes.post('/packages', PackageController.store);
