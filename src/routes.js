@@ -9,6 +9,8 @@ import PackageWithdrawController from './app/controllers/PackageWithdrawControll
 import PackageDeliverController from './app/controllers/PackageDeliverController';
 import FileController from './app/controllers/FileController';
 import PackageController from './app/controllers/PackageController';
+import PackageProblemController from './app/controllers/PackageProblemController';
+import PackageProblemsDistributorController from './app/controllers/PackageProblemsDistributorController';
 
 import authMiddleware from './app/middlewares/auth';
 import logRequests from './app/middlewares/logRequests';
@@ -51,6 +53,11 @@ routes.get('/packages', PackageController.index);
 routes.post('/packages', PackageController.store);
 routes.put('/packages/:id', PackageController.update);
 routes.delete('/packages/:id', PackageController.delete);
+
+routes.get('/package/:packageId/problems', PackageProblemController.index);
+routes.post('/package/:packageId/problems', PackageProblemController.store);
+
+routes.get('/packages/problems', PackageProblemsDistributorController.index);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
