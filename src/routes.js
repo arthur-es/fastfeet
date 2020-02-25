@@ -58,6 +58,10 @@ routes.get('/package/:packageId/problems', PackageProblemController.index);
 routes.post('/package/:packageId/problems', PackageProblemController.store);
 
 routes.get('/packages/problems', PackageProblemsDistributorController.index);
+routes.delete(
+  '/packages/problems/:packageProblemId',
+  PackageProblemsDistributorController.delete
+);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
