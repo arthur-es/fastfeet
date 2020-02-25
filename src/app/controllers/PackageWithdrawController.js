@@ -2,6 +2,8 @@ import Deliveryman from '../models/Deliveryman';
 import Package from '../models/Package';
 import { parseISO } from 'date-fns';
 
+//TO-DO: O entregador só pode fazer 5 retiradas por dia.
+
 class DeliverymanController {
   async update(req, res) {
     const { start_date } = req.body;

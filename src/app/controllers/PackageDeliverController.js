@@ -2,7 +2,7 @@ import Deliveryman from '../models/Deliveryman';
 import Package from '../models/Package';
 import { parseISO } from 'date-fns';
 
-class DeliverymanController {
+class PackageDeliverController {
   async update(req, res) {
     const { end_date, signature_id } = req.body;
     if (!end_date)
@@ -61,4 +61,4 @@ class DeliverymanController {
   }
 }
 
-export default new DeliverymanController();
+export default new PackageDeliverController();
